@@ -1,5 +1,8 @@
 <html>
     <body>
+		{% if user %}
+        Zalogowany jako {{ user }}<br/>
+		{% endif %}
         Co chcesz zrobić?<br/>
         <ul>
             <li><a href='/user/login'>Zaloguj się</a></li>
