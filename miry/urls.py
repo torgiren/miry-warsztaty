@@ -10,7 +10,7 @@ urlpatterns = patterns('',
     url(r'^$', views.index),
     url(r'^kursy/', include('miry.kursy.urls')),
 
-    url(r'user', include('miry.users.urls')),
+    url(r'^user/', include('miry.users.urls')),
     # Examples:
     # url(r'^$', 'miry.views.home', name='home'),
     # url(r'^miry/', include('miry.foo.urls')),
