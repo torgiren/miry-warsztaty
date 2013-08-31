@@ -2,17 +2,25 @@
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from models import *
+
+
 def zapisz(request):
-    wypisz(request)
     kurs = Kurs.objects.get(pk=request.POST['kurs_id'])
-    if kurs:
+    if kurs and kurs.wolne() > 0:
+        wypisz(request)
         request.user.kurs_set.add(kurs)
         request.user.save()
     return redirect('/kursy')
 
+
 def wypisz(request):
-    request.user.kurs_set.clear()
+    kursy = Kurs.objects.get(pk=request.POST['kurs_id']).termin.kurs_set.all()
+    for k in kursy:
+        request.user.kurs_set.remove(k)
+    request.user.save()
     return redirect('/kursy')
+
+
 def index(request):
     if request.method == 'POST':
         if 'action' in request.POST and\
@@ -26,4 +34,4 @@ def index(request):
         else:
             return redirect('/kursy')
     else:
-        return render_to_response('index.html', {'kursy':Kurs.objects.all(),}, context_instance=RequestContext(request))
+        return render_to_response('kursy_index.html', {'terminy': Termin.objects.all(), }, context_instance=RequestContext(request))
