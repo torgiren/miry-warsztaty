@@ -1,7 +1,10 @@
 <html>
     <body>
-		{% if user %}
+        {{ user }}
+		{% if user.is_authenticated %}
         Zalogowany jako {{ user }}<br/>
+        {% else %}
+        Nie jesteś zalogowany<br/>
 		{% endif %}
         Co chcesz zrobić?<br/>
         <ul>
