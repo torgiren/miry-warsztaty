@@ -14,7 +14,7 @@ class Kurs(models.Model):
         return self.nazwa
 
     def wolne(self):
-        return "%s" % (self.miejsca - len(self.osoby.all()))
+        return (self.miejsca - len(self.osoby.all()))
 
 admin.site.register(Kurs)
 

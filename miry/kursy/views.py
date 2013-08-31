@@ -3,9 +3,9 @@ from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from models import *
 def zapisz(request):
-    wypisz(request)
     kurs = Kurs.objects.get(pk=request.POST['kurs_id'])
-    if kurs:
+    if kurs and kurs.wolne() > 0:
+        wypisz(request)
         request.user.kurs_set.add(kurs)
         request.user.save()
     return redirect('/kursy')
