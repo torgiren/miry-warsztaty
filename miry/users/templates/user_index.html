@@ -1,5 +1,11 @@
 <html>
     <body>
+        {{ user }}
+		{% if user.is_authenticated %}
+        Zalogowany jako {{ user }}<br/>
+        {% else %}
+        Nie jesteś zalogowany<br/>
+		{% endif %}
         Co chcesz zrobić?<br/>
         <ul>
             <li><a href='/user/login'>Zaloguj się</a></li>
