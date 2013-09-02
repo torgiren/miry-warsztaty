@@ -10,19 +10,21 @@ def user_index(request):
 
 def user_login(request):
     if request.method == 'POST':
-       if 'login' in request.POST and\
-          'passwd' in request.POST:
-            user = authenticate(username=request.POST['login'], password=request.POST['passwd'])
-            if user is not None:
-                login(request, user)
-            return redirect('/user')
+        if 'email' in request.POST:
+            try:
+                u = User.objects.get(email=request.POST['email'])
+                u.backend = 'django.contrib.auth.backends.ModelBackend'
+                login(request, u)
+            except(User.DoesNotExist):
+                return redirect('/aaa')
+            return redirect('/')
     else:
         return render_to_response('user_login.html', context_instance=RequestContext(request))
 
 
 def user_logout(request):
     logout(request)
-    return redirect('/user')
+    return redirect('/')
 
 def user_register(request):
     if request.method == 'POST':

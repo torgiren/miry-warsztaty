@@ -5,9 +5,10 @@ from settings import MEDIA_ROOT
 from django.contrib import admin
 admin.autodiscover()
 import views
+import kursy.views
 
 urlpatterns = patterns('',
-    url(r'^$', views.index),
+    url(r'^$', kursy.views.index),
     url(r'^kursy/', include('miry.kursy.urls')),
 
     url(r'^user/', include('miry.users.urls')),

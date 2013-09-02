@@ -1,15 +1,22 @@
-<html>
-<head>
-	<title>Zapisy na kursy</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
+    Jesteś zalogowany jako: {{user.email}}<br/>
     Dostępne kursy:<br/>
+    <table>
     {% for t in terminy %}
-        {{ t }}<br/>
-        <table>
-            <tr><td>Nazwa</td><td>Opis</td><td>Wolnych miejsc</td><td>Zapisz się</td></tr>
+    <tr><th colspan=4>{{ t.date|date:"D d M Y, G:i" }}</th></tr>
+            <tr><th>Nazwa</th><th>Opis</th><th>Wolnych miejsc</th><th>Zapisz się</th></tr>
             {% for k in t.kurs_set.all %}
-            <tr><td>{{ k.nazwa}}</td><td>{{k.opis}}</td><td>{{k.wolne}} z {{k.miejsca}}</td><td>
+            <tr><td>
+                    {% if user.is_staff %}
+                    <a href='/kursy/lista/{{k.pk}}'>
+                    {% endif %}
+                    {{ k.nazwa}}</td><td>{{k.opis}}</td>
+                    {% if user.is_staff %}
+                    </a>
+                    {% endif %}
+
+                    <td>{{k.wolne}} z {{k.miejsca}}</td><td>
                     {% if k.wolne %}
                         {% if user.is_authenticated %}
                         <form method='post'>
@@ -29,8 +36,8 @@
                     {% endif %}
                 </td></tr>
             {% endfor %}
-        </table>
     {% endfor %}
+    </table>
     *Wypisuje z innych zapisanych kursów<br/>
-</body>
-</html>
+	<a href='/user/logout'>Wyloguj</a>
+{% endblock %}

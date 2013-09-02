@@ -1,0 +1,10 @@
+{% extends 'base.html'%}
+{% block content %}
+Lista osób na kurs: <strong>{{k.nazwa}}</strong> w dniu <strong>{{ k.termin.date | date:"D d M Y, G:i" }}</strong>
+<ul>
+{% for l in ludzie %}
+<li>{{ l.email }}</li>
+{% endfor %}
+</ul>
+<a href='/'>powrót</a>
+{% endblock %}
