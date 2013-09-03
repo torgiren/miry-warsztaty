@@ -37,7 +37,12 @@ def index(request):
         else:
             return redirect('/kursy')
     else:
-        return render_to_response('kursy_index.html', {'terminy': Termin.objects.all(), }, context_instance=RequestContext(request))
+        pref = request.user.mieszkanie_set.all()
+        if len(pref):
+            pref = pref[0].preferencje
+        else:
+            pref = ""
+        return render_to_response('kursy_index.html', {'terminy': Termin.objects.all(), 'pref': pref }, context_instance=RequestContext(request))
 
 def lista(request, kurs):
     k = Kurs.objects.get(pk=kurs)

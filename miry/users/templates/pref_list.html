@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<table>
+<tr><th>Użytkownik</th><th>preferencje</th></tr>
+{% for p in pref %}
+<tr><td>{{p.user.email }}</td><td>{{p.preferencje}}</td><tr/>
+{% endfor %}
+</table>
+{% endblock %}

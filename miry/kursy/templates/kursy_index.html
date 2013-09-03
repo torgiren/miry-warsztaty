@@ -39,5 +39,11 @@
     {% endfor %}
     </table>
     *Wypisuje z innych zapisanych kursów<br/>
+	Jeśli masz jakieś preferencje mieszkaniowe, wpisz z kim chciał(a)byś mieszkać:
+	<form method='post' action='/user/preferencje/'>
+		{% csrf_token %}
+		<input type='text' name='preferencje' value='{{pref}}'>
+		<input type='submit' value='Zapisz'>
+	</form>
 	<a href='/user/logout'>Wyloguj</a>
 {% endblock %}
