@@ -1,20 +1,30 @@
 {% extends 'base.html' %}
 {% block content %}
     Jesteś zalogowany jako: {{user.email}}<br/>
+	<p>
+	<form method='post' action='/user/preferencje/'>
+		<strong>Jeśli masz jakieś preferencje mieszkaniowe, wpisz z kim chciał(a)byś mieszkać:</strong><br/>
+		{% csrf_token %}
+		<textarea name='preferencje'>{{pref}}</textarea></br>
+		<input type='submit' value='Zapisz'>
+	</form>
+	</p>
     Dostępne kursy:<br/>
+    *Wypisuje z innych zapisanych kursów o danej godzinie<br/>
     <table>
     {% for t in terminy %}
     <tr><th colspan=4>{{ t.date|date:"D d M Y, G:i" }}</th></tr>
-            <tr><th>Nazwa</th><th>Opis</th><th>Wolnych miejsc</th><th>Zapisz się</th></tr>
+            <tr><th>Nazwa</th><th>Miejsce</th><th>Wolnych miejsc</th><th>Zapisz się</th></tr>
             {% for k in t.kurs_set.all %}
-            <tr><td>
+			<tr><td title="{{k.opis}}">
                     {% if user.is_staff %}
                     <a href='/kursy/lista/{{k.pk}}'>
                     {% endif %}
-                    {{ k.nazwa}}</td><td>{{k.opis}}</td>
+					<strong>{{ k.nazwa}}</strong>
                     {% if user.is_staff %}
                     </a>
                     {% endif %}
+					</td><td>{{k.miejsce}}</td>
 
                     <td>{{k.wolne}} z {{k.miejsca}}</td><td>
                     {% if k.wolne %}
@@ -38,12 +48,5 @@
             {% endfor %}
     {% endfor %}
     </table>
-    *Wypisuje z innych zapisanych kursów<br/>
-	Jeśli masz jakieś preferencje mieszkaniowe, wpisz z kim chciał(a)byś mieszkać:
-	<form method='post' action='/user/preferencje/'>
-		{% csrf_token %}
-		<input type='text' name='preferencje' value='{{pref}}'>
-		<input type='submit' value='Zapisz'>
-	</form>
 	<a href='/user/logout'>Wyloguj</a>
 {% endblock %}

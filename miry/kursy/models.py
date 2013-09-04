@@ -16,6 +16,7 @@ class Kurs(models.Model):
     opis = models.TextField(null=True)
     miejsca = models.IntegerField()
     termin = models.ForeignKey(Termin)
+    miejsce = models.CharField(max_length=255, null=True, blank=True)
 
     def __unicode__(self):
         return self.nazwa
